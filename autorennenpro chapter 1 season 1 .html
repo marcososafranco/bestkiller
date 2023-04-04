@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Bewegliches Auto in Autorennen gegen Bots</title>
+    <style>
+      
+  
+      #car {
+        width: 100px;
+        height: 150px;
+        position: absolute;
+        background-color: red;
+        border-radius: 50% 50% 0 0;
+        top: 50%; left: 50%;
+      }
+      #car:before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 70px;
+        height: 70px;
+        background-color: white;
+        border-radius: 50%;
+        top: 40px;
+        left: 15px;
+      }
+      #car:after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 10px;
+        height: 30px;
+        background-color: black;
+        border-radius: 0 0 50% 50%;
+        top: 120px;
+        left: 45px;
+      }
+      #game {
+        width: 120%;
+        height: 80vh;
+        border: 1px solid black;
+        position: relative;
+        background-color: #ECF8E0;
+      }
+      .bot {
+        width: 50px;
+        height: 75px;
+        position: absolute;
+        background-color: blue;
+        border-radius: 50% 50% 0 0;
+        top: -16%;
+        transform: translateY(-50%) scaleY(-1);
+      }
+      .bot:before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 35px;
+        height: 35px;
+        background-color: white;
+        border-radius: 50%;
+        top: 20px;
+        left: 7.5px;
+      }
+      .bot:after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 5px;
+        height: 15px;
+        background-color: red;
+        border-radius: 0 0 50% 50%;
+        top: 60px;
+        left: 22.5px;
+      }
+		</style>
+  </head>
+  <body>
+      <img src="https://media.giphy.com/media/FdsfDPKU7EtYMWtkzL/giphy.gif" alt="Giphy-Bild">
+      <button onclick="entwicklermodus()" class="my-button">Entwicklermodus</button>
+<button onclick="reset()" class="my-button">reset</button>
+<button onclick="kontaktieren()" class="my-button">Kontaktiere mich über WhatsApp</button>
+
+<style>
+    img {
+  position: absolute;
+  top: 110%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+}
+
+
+  .my-button {
+    background-color: #4CAF50; /* Hintergrundfarbe */
+    border: none; /* Keine Umrandung */
+    color: white; /* Textfarbe */
+    padding: 10px 20px; /* Innenabstand */
+    text-align: center; /* Zentriert den Text */
+    text-decoration: none; /* Keine Unterstreichung */
+    display: inline-block; /* Blockiert nicht den Textfluss */
+    font-size: 25px; /* Schriftgröße */
+    margin: 4px 2px; /* Außenabstand */
+    cursor: pointer; /* Zeigt an, dass es sich um einen anklickbaren Button handelt */
+    border-radius: 12px; /* Runde Ecken */
+  }
+</style>
+
+
+
+    <h1>Bewegliches Auto in Autorennen gegen Bots</h1>
+    <p>Bewege dein Auto durch Berühren des Bildschirms und versuche, den Bots auszuweichen.</p>
+    <div id="game">
+      <div id="car"></div>
+    </div>
+    <div id="video-container"></div>
+    <script>
+        
+        function entwicklermodus() {
+  const password = prompt("Bitte gib das Passwort ein:");
+
+  if (password === "XQaeTw09") {
+    alert("Hallo Welt!");
+  } else {
+    alert("Falsches Passwort!");
+  }
+}
+
+
+      function reset() {
+  const password = prompt("Bitte gib das Passwort ein, um den Benutzernamen und Highscore zu löschen:");
+  if (password === "geheimesPasswort") {
+    localStorage.setItem("userName" , 0);
+    localStorage.setItem("highscore", 0);
+    alert("Der Benutzername und der Highscore wurden gelöscht.");
+    location.reload(); // lädt die Seite neu
+  } else {
+    alert("Falsches Passwort!");    
+  }
+}
+
+function kontaktieren() {
+    window.open("https://api.whatsapp.com/send?phone=+4915781770291&text=Hallo, hier ist " + localStorage.getItem("userName") + ".");
+}
+
+
+function bildBeruehrt() {
+  window.open("https://api.whatsapp.com/send?phone=+4915781770291&text=Hallo, hier ist " + localStorage.getItem("userName") + ". Ich will diesen Werbeplatz mieten und bin mir natürlich im klaren, dass es noch eine unbestimmte Zeit dauern kann, bis es verfügbar ist. Bitte kontaktiere mich dann hier: [Kontaktdaten]");
+  setTimeout(function() { (simulateTouchStartEvent()); }, 2000);
+}
+const bild = document.querySelector('img'); bild.addEventListener('touchstart', bildBeruehrt);
+
+function simulateTouchStartEvent() {
+  var bild = document.querySelector('img');
+  var touchStartEvent = new Event('touchstart');
+  bild.dispatchEvent(touchStartEvent);
+}
+
+
+
+      
+      function getPassword() {
+  var password = "Bunsenbrenner"; // Passwort speichern
+  var storedUserName = localStorage.getItem("userName"); // Gespeicherten Benutzernamen abrufen
+  var userName = (storedUserName !== null) ? storedUserName : prompt("Bitte geben Sie Ihren Namen ein:", ""); // Benutzer nach Namen fragen, falls noch nicht vorhanden
+  if (userName !== null && userName !== "") { // prüfen, ob der Benutzer einen Namen eingegeben hat
+    localStorage.setItem("userName", userName); // Namen im localStorage speichern
+    var userPassword = prompt("Bitte geben Sie das Passwort ein:", "");
+    if (userPassword == password) {
+      alert("Hallo " + userName);
+      startGame(); // wenn das Passwort korrekt ist, starten Sie das Spiel
+    } else {
+      alert("Das eingegebene Passwort ist falsch. Bitte versuchen Sie es erneut.");
+      getPassword(); // fordern Sie den Benutzer erneut auf, das Passwort einzugeben
+    }
+  } else {
+    alert("Bitte geben Sie einen Namen ein.");
+    getPassword(); // fordern Sie den Benutzer erneut auf, einen Namen einzugeben
+  }
+}
+
+
+
+
+
+
+
+
+
+function startGame() {var game = document.getElementById("game");
+var car = document.getElementById("car");
+var x = 0;
+var y = 0;
+var score = 0;
+var speed = 5;
+var botInterval = null;
+var maxBots = 10; // Limit für die Anzahl der Bots
+var botCount = 0; // Zählervariable für die Anzahl der Bots
+
+
+
+
+function moveCar(event) {
+  event.preventDefault();
+  var touch = event.touches[0] || event.changedTouches[0];
+  x = touch.pageX - window.innerWidth / 2;
+  y = touch.pageY - window.innerHeight / 2;
+  // überprüfen, ob das Auto das Spielfeld verlässt
+  if (x < -game.offsetWidth / 2) {
+    x = -game.offsetWidth / 2;
+  } else if (x > game.offsetWidth / 2 - car.offsetWidth) {
+    x = game.offsetWidth / 2 - car.offsetWidth;
+  }
+  if (y < -game.offsetHeight / 2) {
+    y = -game.offsetHeight / 2;
+  } else if (y > game.offsetHeight / 2 - car.offsetHeight) {
+    y = game.offsetHeight / 2 - car.offsetHeight;
+  }
+  car.style.transform = "translate(" + x + "px, " + y + "px)";
+}
+
+function createBot() {
+  if (botCount < maxBots) { // prüfen, ob das Limit erreicht wurde
+    var bot = document.createElement("div");
+    bot.className = "bot";
+    bot.style.left = Math.floor(Math.random() * 90) + "%";
+    bot.style.top = "0%";
+    bot.speed = Math.floor(Math.random() * 20) + 10;
+    game.appendChild(bot);
+    botCount++; // Zählervariable erhöhen
+    moveBot(bot);
+  }
+}
+
+function moveBot(bot) {
+  var botInterval = setInterval(function() {
+    bot.style.top = parseInt(bot.style.top) + bot.speed + "px";
+    var storedUserName = localStorage.getItem("userName");
+    if (parseInt(bot.style.top) > game.offsetHeight) {
+      clearInterval(botInterval);
+      game.removeChild(bot);
+      botCount--; // Zählervariable verringern, wenn der Bot entfernt wurde
+    } else if (collision(car, bot)) {
+      clearInterval(botInterval);
+      if (score > localStorage.getItem("highscore")) {
+  localStorage.setItem("highscore", score);
+}
+      
+      clearInterval(scoreInterval);
+      clearInterval(botInterval);
+      alert("Game over " + storedUserName + ". Dein score ist " + score + " und dein highscore ist " + localStorage.getItem("highscore"));
+      resetGame();
+    }
+  }, 20);
+}
+
+function resetGame() {
+  var bots = document.querySelectorAll(".bot");
+  bots.forEach(function(bot) {
+    game.removeChild(bot);
+  });
+  x = 0;
+  y = 0;
+  score = 0;
+  speed = 5;
+  botSpeed = 10;
+  botCount = 0; // Zählervariable zurücksetzen
+  clearInterval(scoreInterval);
+  scoreInterval = setInterval(function() {
+    score++;
+    speed = Math.min(speed + 0.05, 20);
+    botSpeed = Math.min(botSpeed + 1);
+    clearInterval(botInterval);
+    botInterval = setInterval(createBot, 3000/ botSpeed);
+  }, 1000);
+  botInterval = setInterval(createBot, 1000);
+  car.style.transform = "translate(-50%, -50%)";
+}
+
+
+
+
+      function collision(a, b) {
+        var aRect = a.getBoundingClientRect();
+        var bRect = b.getBoundingClientRect();
+        return !(
+          (aRect.bottom < bRect.top) ||
+          (aRect.top > bRect.bottom) ||
+          (aRect.right < bRect.left) ||
+          (aRect.left > bRect.right)
+        );
+      }
+      
+      
+      
+      document.addEventListener("touchmove", moveCar);
+
+      var scoreInterval = setInterval(function() {
+      document.addEventListener("visibilitychange", function() {
+  if (document.visibilityState === "hidden") {resetGame;
+  location.reload(); // Hier kannst du die Funktion aufrufen, die das Spiel anhalten soll
+  } 
+});
+  score++;
+  speed = Math.min(speed + 1);
+  clearInterval(botInterval);
+  botInterval = setInterval(createBot, 3000 / speed);
+}, 1000);}
+
+
+
+
+
+
+
+
+
+
+getPassword(); // fordern Sie den Benutzer auf, das Passwort einzugeben, bevor das Spiel gestartet wird
+
+
+       
+
+
+    
+    </script>
+  </body>
+</html>
